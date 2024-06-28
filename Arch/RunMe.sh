@@ -51,7 +51,7 @@ echo "fstab file generated successfully."
 
 # Chrooting 
 echo "Chrooting into new env"
-arch-chroot /mnt
+arch-chroot /mnt /bin/bash <<EOF
 
 # Set timezone to Asia/Kolkata
 echo "Setting timezone to Asia/Kolkata..."
@@ -102,8 +102,7 @@ echo "Root password set successfully."
 
 # Mount the EFI System Partition (ESP)
 echo "Mounting EFI System Partition (ESP)..."
-mkdir -p /mnt/boot/EFI   # Create mount point if not exist
-mount /dev/nvme0n1p1 /mnt/boot/EFI   # Mount the EFI partition
+mount --mkdir /dev/nvme0n1p1 /mnt/boot/EFI   # Mount the EFI partition
 
 # Install required packages
 echo "Installing necessary packages..."
@@ -111,7 +110,7 @@ pacman -Sy grub efibootmgr efitools dosfstools mtools os-prober --noconfirm   # 
 
 # Install GRUB for UEFI
 echo "Installing GRUB for UEFI..."
-grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=GRUB --verbose --recheck   # Install GRUB with verbose output and recheck
+grub-install --target=x86_64-efi --efi-directory=/mnt/boot/EFI --bootloader-id=GRUB --verbose --recheck   # Install GRUB with verbose output and recheck
 
 # Generate GRUB configuration file
 echo "Generating GRUB configuration file..."
@@ -160,6 +159,18 @@ fi
 
 # Provide completion message
 echo "Configuration completed successfully."
+
+# Post Install
+sudo pacman -S networkmanager vim htop nvtop bluez bluez-utils neofetch
+systemctl enable NetworkManager
+systemctl enable bluetooth
+
+# Unmounting EFI Directory
+umount /mnt/boot/EFI
+
+exit
+
+EOF
 
 # Unmount EFI partition and clean up
 echo "Unmounting EFI partition and cleaning up..."
