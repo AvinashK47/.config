@@ -25,20 +25,20 @@ echo "KDE Plasma Desktop installation completed!"
 # Install necessary packages for yay
 sudo pacman -S --noconfirm curl zsh pacman-contrib git base-devel firefox vim vlc 
 
-# Download yay from AUR
-echo "Downloading yay from AUR..."
-git clone https://aur.archlinux.org/yay.git
-cd yay
+# Install paru from AUR
+echo "Installing paru from AUR..."
+git clone https://aur.archlinux.org/paru.git
+cd paru
 makepkg -si --noconfirm
 
-yay -S --noconfirm google-chrome visual-studio-code-bin postman-bin mongodb-compass
+paru -S --noconfirm google-chrome visual-studio-code-bin postman-bin mongodb-compass
 
 # Prompt user for NVIDIA driver installation
 read -p "Do you want to install NVIDIA driver (y/n)? " choice
 if [[ $choice == [Yy] ]]; then
     # Install NVIDIA driver and related packages
     echo "Installing NVIDIA driver and utilities..."
-    yay -S --noconfirm nvidia nvidia-utils nvtop
+    sudo pacman -S --noconfirm nvidia nvidia-utils nvtop
 else
     echo "Skipping NVIDIA driver installation."
 fi
