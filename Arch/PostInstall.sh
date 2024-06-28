@@ -53,8 +53,14 @@ else
     echo "Skipping Steam installation."
 fi
 
-# Installing ohmyzsh
-
-sudo pacman -S curl
-
+# Install Oh My Zsh
+echo "Installing Oh My Zsh..."
+sudo pacman -S --noconfirm curl
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+echo "Oh My Zsh installed and configured!"
+
+# Set Zsh as default shell for current user
+chsh -s $(which zsh)
+
+echo "Setup completed!"
