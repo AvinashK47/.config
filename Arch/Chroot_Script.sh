@@ -1,6 +1,6 @@
 # Set timezone to Asia/Kolkata
 echo "Setting timezone to Asia/Kolkata..."
-ln -sf /usr/share/zoneinfo/Asia/Kolkata /mnt/etc/localtime
+ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 
 # Provide confirmation message
 echo "Timezone set to Asia/Kolkata successfully."
@@ -14,7 +14,7 @@ echo "Hardware clock set successfully."
 
 # Edit /etc/locale.gen to uncomment en_US.UTF-8 UTF-8
 echo "Uncommenting en_US.UTF-8 UTF-8 in /etc/locale.gen..."
-sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /mnt/etc/locale.gen
+sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 
 # Generate locales
 echo "Generating locales..."
@@ -24,8 +24,8 @@ locale-gen
 echo "Locales generated successfully."
 
 # Create /etc/locale.conf and set LANG variable
-touch /mnt/etc/locale.conf
-echo "LANG=en_US.UTF-8" > /mnt/etc/locale.conf
+touch /etc/locale.conf
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 # Provide confirmation message
 echo "Created /etc/locale.conf and set LANG variable."
@@ -34,7 +34,7 @@ echo "Created /etc/locale.conf and set LANG variable."
 read -p "Enter hostname: " hostname_input
 
 # Set hostname in /etc/hostname
-echo "$hostname_input" > /mnt/etc/hostname
+echo "$hostname_input" > /etc/hostname
 
 # Provide confirmation message
 echo "Created /etc/hostname with hostname: $hostname_input"
@@ -48,7 +48,7 @@ echo "Root password set successfully."
 
 # Mount the EFI System Partition (ESP)
 echo "Mounting EFI System Partition (ESP)..."
-mount --mkdir /dev/nvme0n1p1 /mnt/boot/EFI   # Mount the EFI partition
+mount --mkdir /dev/nvme0n1p1 /boot/EFI   # Mount the EFI partition
 
 # Install required packages
 echo "Installing necessary packages..."
@@ -56,7 +56,7 @@ pacman -Sy grub efibootmgr efitools dosfstools mtools os-prober --noconfirm   # 
 
 # Install GRUB for UEFI
 echo "Installing GRUB for UEFI..."
-grub-install --target=x86_64-efi --efi-directory=/mnt/boot/EFI --bootloader-id=GRUB --verbose --recheck   # Install GRUB with verbose output and recheck
+grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=GRUB --verbose --recheck   # Install GRUB with verbose output and recheck
 
 # Generate GRUB configuration file
 echo "Generating GRUB configuration file..."
@@ -112,6 +112,6 @@ systemctl enable NetworkManager
 systemctl enable bluetooth
 
 # Unmounting EFI Directory
-umount /mnt/boot/EFI
+umount /boot/EFI
 
 exit

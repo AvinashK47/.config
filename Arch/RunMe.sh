@@ -52,7 +52,7 @@ echo "fstab file generated successfully."
 # Copy the Chroot_Script.sh to the new environment
 echo "Copying Chroot_Script.sh to /mnt..."
 cp Chroot_Script.sh /mnt
-chmod +x Chroot_Script.sh
+chmod +x /mnt/Chroot_Script.sh
 
 # Verify the script is copied successfully
 if [ ! -f /mnt/Chroot_Script.sh ]; then
@@ -62,7 +62,7 @@ fi
 
 # Chrooting and executing the script
 echo "Chrooting into new env and executing Chroot_Script.sh..."
-arch-chroot /mnt /bin/bash -c "cd && ./Chroot_Script.sh"
+arch-chroot /mnt /bin/bash -c "./Chroot_Script.sh"
 
 # Unmount EFI partition and clean up
 echo "Unmounting EFI partition and cleaning up..."
