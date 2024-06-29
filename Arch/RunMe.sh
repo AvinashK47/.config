@@ -54,10 +54,6 @@ echo "Copying Chroot_Script.sh to /mnt..."
 cp Chroot_Script.sh /mnt
 chmod +x Chroot_Script.sh
 
-# Chrooting and executing the script
-echo "Chrooting into new env and executing Chroot_Script.sh..."
-arch-chroot /mnt /bin/bash -c "./Chroot_Script.sh"
-
 # Verify the script is copied successfully
 if [ ! -f /mnt/Chroot_Script.sh ]; then
     echo "Error: Chroot_Script.sh not found in /mnt"

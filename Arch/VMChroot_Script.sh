@@ -48,7 +48,7 @@ echo "Root password set successfully."
 
 # Mount the EFI System Partition (ESP)
 echo "Mounting EFI System Partition (ESP)..."
-mount --mkdir /dev/nvme0n1p1 /mnt/boot/EFI   # Mount the EFI partition
+mount --mkdir /dev/sda1 /mnt/boot/EFI   # Mount the EFI partition
 
 # Install required packages
 echo "Installing necessary packages..."
