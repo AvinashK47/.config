@@ -53,6 +53,18 @@ else
     echo "Skipping Steam installation."
 fi
 
+# Prompt user for VirtualBox installation
+read -p "Do you want to install Oracle VirtualBox? (y/n): " install_virtualbox
+if [[ $install_virtualbox =~ ^[Yy]$ ]]; then
+    # Install VirtualBox and related packages
+    echo "Installing Oracle VirtualBox..."
+    sudo pacman -S --noconfirm virtualbox virtualbox-host-modules-arch virtualbox-guest-iso linux-headers
+    modprobe vboxdrv
+else
+    echo "Skipping Oracle VirtualBox installation."
+fi
+
+
 # Install Oh My Zsh
 echo "Installing Oh My Zsh..."
 sudo pacman -S --noconfirm curl
