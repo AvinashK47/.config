@@ -114,4 +114,13 @@ systemctl enable bluetooth
 # Unmounting EFI Directory
 umount /boot/EFI
 
+# Prompt to run PostInstall.sh
+read -p "Do you want to run the PostInstall.sh script now? (yes/no): " run_postinstall_choice
+
+if [ "$run_postinstall_choice" = "yes" ]; then
+    echo "Running PostInstall.sh..."
+    ./PostInstall.sh
+fi
+
+
 exit

@@ -60,6 +60,11 @@ if [ ! -f /mnt/Chroot_Script.sh ]; then
     exit 1
 fi
 
+# Copy the PostInstall.sh to the new environment
+echo "Copying PostInstall.sh to /mnt..."
+cp PostInstall.sh /mnt
+chmod +x /mnt/PostInstall.sh
+
 # Chrooting and executing the script
 echo "Chrooting into new env and executing Chroot_Script.sh..."
 arch-chroot /mnt /bin/bash -c "./Chroot_Script.sh"
