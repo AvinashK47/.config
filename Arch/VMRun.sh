@@ -4,7 +4,7 @@
 set -e
 
 # Disk to be partitioned
-DISK="/dev/nvme0n1"
+DISK="/dev/sda"
 
 # Warning message and confirmation
 echo "WARNING: This script will wipe all data on $DISK."
@@ -28,14 +28,14 @@ parted $DISK --script mkpart primary ext4 513MiB 100%
 
 # Format the partitions
 echo "Formatting the partitions..."
-mkfs.fat -F32 ${DISK}p1   # Format /boot partition as FAT32
-mkfs.ext4 ${DISK}p2       # Format root partition as ext4
+mkfs.fat -F32 ${DISK}1   # Format /boot partition as FAT32
+mkfs.ext4 ${DISK}2       # Format root partition as ext4
 
 echo "Disk partitioning and formatting completed successfully."
 
 # Mount the root partition
 echo "Mounting the root partition..."
-mount ${DISK}p2 /mnt
+mount ${DISK}2 /mnt
 
 echo "Root partition mounted successfully."
 
