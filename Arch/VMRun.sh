@@ -62,7 +62,7 @@ fi
 
 # Chrooting and executing the script
 echo "Chrooting into new env and executing VMChroot_Script.sh..."
-arch-chroot /mnt /bin/bash -c "cd && ./VMChroot_Script.sh"
+arch-chroot /mnt /bin/bash -c "./VMChroot_Script.sh"
 
 # Unmount EFI partition and clean up
 echo "Unmounting EFI partition and cleaning up..."
