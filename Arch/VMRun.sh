@@ -52,7 +52,7 @@ echo "fstab file generated successfully."
 # Copy the Chroot_Script.sh to the new environment
 echo "Copying VMChroot_Script.sh to /mnt..."
 cp VMChroot_Script.sh /mnt
-chmod +x VMChroot_Script.sh
+chmod +x /mnt/VMChroot_Script.sh
 
 # Verify the script is copied successfully
 if [ ! -f /mnt/VMChroot_Script.sh ]; then
