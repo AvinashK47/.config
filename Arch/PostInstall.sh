@@ -1,4 +1,4 @@
-#!/bin/bash
+ko#!/bin/bash
 
 # Open /etc/pacman.conf for editing and uncomment multilib section
 sudo sed -i "/\[multilib\]/,/Include/"' s/^#//' /etc/pacman.conf    
@@ -71,8 +71,5 @@ sudo pacman -S --noconfirm curl
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 echo "Oh My Zsh installed and configured!"
-
-# Set Zsh as default shell for current user
-chsh -s $(which zsh)
 
 echo "Setup completed!"
