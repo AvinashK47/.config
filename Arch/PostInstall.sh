@@ -1,4 +1,4 @@
-ko#!/bin/bash
+#!/bin/bash
 
 # Open /etc/pacman.conf for editing and uncomment multilib section
 sudo sed -i "/\[multilib\]/,/Include/"' s/^#//' /etc/pacman.conf    
