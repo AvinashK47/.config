@@ -9,7 +9,7 @@ sudo pacman -Syu --noconfirm
 
 # Install KDE Plasma Desktop and additional packages
 echo "Installing KDE Plasma Desktop and additional packages..."
-sudo pacman -S --noconfirm plasma-meta plasma-workspace ark konsole dolphin egl-wayland
+sudo pacman -S --noconfirm plasma-meta plasma-workspace ark konsole dolphin egl-wayland kdeconnect
 
 # Install display manager (SDDM)
 echo "Installing SDDM display manager..."
@@ -23,7 +23,7 @@ sudo systemctl start sddm.service
 echo "KDE Plasma Desktop installation completed!"
 
 # Install necessary packages for yay
-sudo pacman -S --noconfirm curl zsh pacman-contrib git base-devel firefox vim vlc 
+sudo pacman -S --noconfirm curl zsh pacman-contrib git base-devel firefox vim neovim vlc discord libreoffice mpv telegram-desktop spectacle
 
 # Install paru from AUR
 echo "Installing paru from AUR..."
@@ -31,7 +31,7 @@ git clone https://aur.archlinux.org/paru.git
 cd paru
 makepkg -si --noconfirm
 
-paru -S --noconfirm google-chrome visual-studio-code-bin postman-bin mongodb-compass
+paru -S --noconfirm google-chrome visual-studio-code-bin postman-bin mongodb-compass balena-etcher tor-browser-bin
 
 # Prompt user for NVIDIA driver installation
 read -p "Do you want to install NVIDIA driver (y/n)? " choice
