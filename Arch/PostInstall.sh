@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Install paru from AUR
+echo "Installing paru from AUR..."
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si --noconfirm
+
+paru -S --noconfirm google-chrome visual-studio-code-bin postman-bin mongodb-compass balena-etcher tor-browser-bin
+
 # Open /etc/pacman.conf for editing and uncomment multilib section
 sudo sed -i "/\[multilib\]/,/Include/"' s/^#//' /etc/pacman.conf    
 echo "Multilib repository enabled!"
@@ -24,14 +32,6 @@ echo "KDE Plasma Desktop installation completed!"
 
 # Install necessary packages for yay
 sudo pacman -S --noconfirm curl zsh pacman-contrib git base-devel firefox vim neovim vlc discord libreoffice mpv telegram-desktop spectacle
-
-# Install paru from AUR
-echo "Installing paru from AUR..."
-git clone https://aur.archlinux.org/paru.git
-cd paru
-makepkg -si --noconfirm
-
-paru -S --noconfirm google-chrome visual-studio-code-bin postman-bin mongodb-compass balena-etcher tor-browser-bin
 
 # Prompt user for NVIDIA driver installation
 read -p "Do you want to install NVIDIA driver (y/n)? " choice
