@@ -24,47 +24,30 @@ echo "Partitioning the disk..."
 parted $DISK --script mklabel gpt
 parted $DISK --script mkpart primary fat32 1MiB 513MiB
 parted $DISK --script set 1 esp on
-parted $DISK --script mkpart primary 513MiB 400513MiB      # Root LVM partition
-parted $DISK --script mkpart primary 400513MiB 100%        # Reserved partition for Windows
+parted $DISK --script mkpart primary ext4 513MiB 100%
 
-# Format the EFI partition
-echo "Formatting the EFI partition..."
+# Format the partitions
+echo "Formatting the partitions..."
 mkfs.fat -F32 ${DISK}p1   # Format /boot partition as FAT32
+mkfs.ext4 ${DISK}p2       # Format root partition as ext4
 
-# Ensure partition type is set for LVM (optional, if not done manually)
-echo "Setting partition type for LVM..."
-parted $DISK --script set 2 lvm on
+echo "Disk partitioning and formatting completed successfully."
 
-# Wipe any existing signatures from the partition
-echo "Wiping existing signatures from LVM partition..."
-wipefs --all ${DISK}p2
+# Mount the root partition
+echo "Mounting the root partition..."
+mount ${DISK}p2 /mnt
 
-# Set up LVM
-echo "Setting up LVM..."
-pvcreate ${DISK}p2                             # Create a physical volume on the root partition
-vgcreate arch_vg ${DISK}p2                     # Create a volume group named arch_vg
-lvcreate -L 400G arch_vg -n root               # Create a 400GB logical volume for root
-
-# Format the LVM root partition
-echo "Formatting the LVM root partition..."
-mkfs.ext4 /dev/arch_vg/root                    # Format the root logical volume as ext4
-
-# Mount the LVM root partition
-echo "Mounting the LVM root partition..."
-mount /dev/arch_vg/root /mnt
-
-# Mount the EFI partition
-echo "Mounting the EFI partition..."
-mkdir /mnt/boot
-mount ${DISK}p1 /mnt/boot
+echo "Root partition mounted successfully."
 
 # Install base system packages (base, linux, linux-firmware) into /mnt
-echo "Installing base system..."
-pacstrap -K /mnt base linux linux-firmware lvm2
+pacstrap -K /mnt base linux linux-firmware sudo
 
 # Generate fstab file for the installed system
 echo "Generating fstab file..."
 genfstab -U /mnt >> /mnt/etc/fstab
+
+# Provide confirmation message
+echo "fstab file generated successfully."
 
 # Copy the Chroot_Script.sh to the new environment
 echo "Copying Chroot_Script.sh to /mnt..."
@@ -86,17 +69,9 @@ chmod +x /mnt/PostInstall.sh
 echo "Chrooting into new env and executing Chroot_Script.sh..."
 arch-chroot /mnt /bin/bash -c "./Chroot_Script.sh"
 
-# Inside Chroot: GRUB Installation
-echo "Installing and configuring GRUB..."
-arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm grub efibootmgr lvm2
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
-EOF
-
-# Unmount all partitions and clean up
-echo "Unmounting all partitions and cleaning up..."
-umount -R /mnt
+# Unmount EFI partition and clean up
+echo "Unmounting EFI partition and cleaning up..."
+umount -R /mnt   # Unmount all mounted partitions
 
 # Prompt to reboot
-echo "Installation complete! Please reboot your system."
+echo "Please reboot your system to apply changes."
