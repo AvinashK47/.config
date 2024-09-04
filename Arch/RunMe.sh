@@ -52,7 +52,7 @@ mount ${DISK}p1 /mnt/boot
 
 # Install base system packages (base, linux, linux-firmware) into /mnt
 echo "Installing base system..."
-pacstrap -K /mnt base linux linux-firmware lvm2
+pacstrap -K /mnt base linux linux-firmware sudo lvm2
 
 # Generate fstab file for the installed system
 echo "Generating fstab file..."
