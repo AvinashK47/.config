@@ -31,6 +31,14 @@ parted $DISK --script mkpart primary 400513MiB 100%        # Reserved partition 
 echo "Formatting the EFI partition..."
 mkfs.fat -F32 ${DISK}p1   # Format /boot partition as FAT32
 
+# Ensure partition type is set for LVM (optional, if not done manually)
+echo "Setting partition type for LVM..."
+parted $DISK --script set 2 lvm on
+
+# Wipe any existing signatures from the partition
+echo "Wiping existing signatures from LVM partition..."
+wipefs --all ${DISK}p2
+
 # Set up LVM
 echo "Setting up LVM..."
 pvcreate ${DISK}p2                             # Create a physical volume on the root partition
@@ -52,7 +60,7 @@ mount ${DISK}p1 /mnt/boot
 
 # Install base system packages (base, linux, linux-firmware) into /mnt
 echo "Installing base system..."
-pacstrap -K /mnt base linux linux-firmware sudo lvm2
+pacstrap -K /mnt base linux linux-firmware lvm2
 
 # Generate fstab file for the installed system
 echo "Generating fstab file..."
